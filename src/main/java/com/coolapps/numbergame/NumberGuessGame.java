@@ -1,0 +1,140 @@
+package com.coolapps.numbergame;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+/**
+ * <code>NumberGuessGame</code> instance encapsulates the state and logic to
+ * play Number Guess Game.
+ * 
+ */
+public class NumberGuessGame {
+
+	public static final int DEFAULT_MAX_NUMBER = 100;
+	private static final String READY = "ready";
+	private static final String YES = "yes";
+	private static final String HIGHER = "higher";
+	private static final String LOWER = "lower";
+	private static final String END = "end";
+
+	private static final int READY_PROMPT_MAX_COUNT = 3;
+	private static final String READY_PROMPT_MSG = "Hello!. Please enter \"ready\" to start the game : ";
+	private static final String READY_PROMPT_MSG_AGAIN = "You have entered \"%s\". Please enter \"ready\" to start the game : ";
+
+	private List<Integer> orderedNumbers;
+
+	public NumberGuessGame() {
+		this(DEFAULT_MAX_NUMBER);
+	}
+
+	public NumberGuessGame(Integer maxNumber) {
+
+		if (maxNumber == null) {
+			maxNumber = DEFAULT_MAX_NUMBER;
+		}
+		if (maxNumber < 1) {
+			System.out
+					.println("maxNumber can not be less than 1. It will be set to default: "
+							+ DEFAULT_MAX_NUMBER);
+			maxNumber = DEFAULT_MAX_NUMBER;
+		}
+		orderedNumbers = new ArrayList<Integer>(maxNumber);
+		
+		//populate array list with 1..maxNumber.
+		for (int i = 1; i <= maxNumber; ++i) {
+			orderedNumbers.add(i);
+		}
+	}
+
+	/**
+	 * This method is exposed to clients.
+	 */
+	protected void playGame() {
+		Scanner scanner = null;
+		try {
+			scanner = new Scanner(System.in);
+			if (!isUserReadyToPlay(scanner)) {
+				System.out.println("Ended the game!. You may try again!.");
+				return;
+			}		
+			play(scanner);
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			scanner.close();			
+		}
+	}
+	
+	/**
+	 * Implements logic to play the game. As user provides hints reg his guess, the method changes 
+	 * low and high indexes accordingly until it narrows down to the exact number in <code>orderedNumbers</code> list. 
+	 * 
+	 * @param scanner
+	 */
+	private void play(Scanner scanner) {
+		
+		int lowIndex = 0, highIndex = orderedNumbers.size() - 1, currentIndex;
+		String input = null;
+		
+		int attempts = 0;
+		do {
+			currentIndex = (lowIndex + highIndex) / 2;
+			++attempts;
+			System.out.printf("Is the number %d?", orderedNumbers.get(currentIndex));
+			input = scanner.next();
+
+			if (LOWER.equalsIgnoreCase(input)) {
+				highIndex = currentIndex - 1;
+				continue;
+			}
+
+			if (HIGHER.equalsIgnoreCase(input)) {
+				lowIndex = currentIndex + 1;
+				continue;
+			}
+			
+		} while (!END.equalsIgnoreCase(input) && !YES.equalsIgnoreCase(input));
+
+		if (END.equalsIgnoreCase(input)) {
+			System.out.println("Ended the game. Bye!"); 
+			return; 
+		}
+		  
+		if (YES.equalsIgnoreCase(input)) {
+			 System.out.printf("Guessed the number successfully in %d attempts", attempts); 
+			 return; 
+		}
+	}
+ 
+	/**
+	 * Prompts user to enter "ready" to start number guess game. 
+	 * If user fails to enter ready in 3 attempts, returns false, otherwise returns true;
+	 */
+	private boolean isUserReadyToPlay(Scanner scanner) {
+
+		// initialize prompt count.
+		int promptCount = 0;
+		String input = null;
+		
+		do {
+			if (promptCount==0) {
+				System.out.print(READY_PROMPT_MSG);					
+			}
+			else {
+				System.out.printf(READY_PROMPT_MSG_AGAIN, input);					
+			}
+			input = scanner.next();			
+			++promptCount;
+			if (READY.equalsIgnoreCase(input)) {
+				return true;
+			}				
+		} 
+		while (!READY.equalsIgnoreCase(input) && promptCount < READY_PROMPT_MAX_COUNT);
+		
+		return false;
+	}
+
+}
