@@ -1,7 +1,5 @@
 package com.coolapps.numbergame;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -30,8 +28,8 @@ public class NumberGuessGame {
 	private static final int READY_PROMPT_MAX_COUNT = 3;
 	private static final String READY_PROMPT_MSG = "Hello!. Please enter \"ready\" to start the game : ";
 	private static final String READY_PROMPT_MSG_AGAIN = "You have entered \"%s\". Please enter \"ready\" to start the game : ";
-
-	private List<Integer> orderedNumbers;
+	
+	private int maxNumber;
 
 	/**
 	 * Default no-arg constructor.
@@ -41,22 +39,18 @@ public class NumberGuessGame {
 	}
 
 	public NumberGuessGame(Integer maxNumber) {
-
 		if (maxNumber == null) {
-			maxNumber = DEFAULT_MAX_NUMBER;
-		}
+			this.maxNumber = DEFAULT_MAX_NUMBER;
+			return;
+		}		
 		if (maxNumber < 1) {
 			System.out
 					.println("maxNumber can not be less than 1. It will be set to default: "
 							+ DEFAULT_MAX_NUMBER);
-			maxNumber = DEFAULT_MAX_NUMBER;
+			this.maxNumber = DEFAULT_MAX_NUMBER;
+			return;
 		}
-		orderedNumbers = new ArrayList<Integer>(maxNumber);
-		
-		//populate array list with 1..maxNumber.
-		for (int i = 1; i <= maxNumber; ++i) {
-			orderedNumbers.add(i);
-		}
+		this.maxNumber = maxNumber;
 	}
 
 	/**
@@ -90,23 +84,23 @@ public class NumberGuessGame {
 	 */
 	private void play(Scanner scanner) {
 		
-		int lowIndex = 0, highIndex = orderedNumbers.size() - 1, currentIndex;
+		int low = 0, high = maxNumber, current;
 		String input = null;
 		
 		int attempts = 0;
 		do {
-			currentIndex = (lowIndex + highIndex) / 2;
+			current = (low + high) / 2;
 			++attempts;
-			System.out.printf("Is the number %d?", orderedNumbers.get(currentIndex));
+			System.out.printf("Is the number %d?", current);
 			input = scanner.next();
 
 			if (LOWER.equalsIgnoreCase(input)) {
-				highIndex = currentIndex - 1;
+				high = current - 1;
 				continue;
 			}
 
 			if (HIGHER.equalsIgnoreCase(input)) {
-				lowIndex = currentIndex + 1;
+				low = current + 1;
 				continue;
 			}
 			
