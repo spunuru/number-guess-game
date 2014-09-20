@@ -12,7 +12,7 @@ The game ends when the user responds with “yes” or “end”.
  
 Example:
 1. User chooses number 40 in his mind.
-2. Computer: Is the number 30?
+2. 2. Computer: Is the number 30?
 3. User: higher
 4. Computer: Is the number 50?
 5. User: lower
@@ -20,6 +20,7 @@ Example:
 7. User: higher
 8. Computer: Is the number 40?
 9. User: yes
+
  
 Please note:
 1. The program should be written to arrive at the answer asking the least number of questions.
