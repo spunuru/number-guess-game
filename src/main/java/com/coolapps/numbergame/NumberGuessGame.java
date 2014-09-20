@@ -1,15 +1,13 @@
 package com.coolapps.numbergame;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
  * <code>NumberGuessGame</code> instance encapsulates the state and logic to
- * play Number Guess Game. 
- * 
+ * play Number Guess Game.
+ *
 
- * Here is the usage - 
+ * Here is the usage -
  * <p>
  * <code>
  * NumberGuessGame game = new NumberGuessGame()/new NumberGuessGame(int);
@@ -31,7 +29,7 @@ public class NumberGuessGame {
 	private static final String READY_PROMPT_MSG = "Hello!. Please enter \"ready\" to start the game : ";
 	private static final String READY_PROMPT_MSG_AGAIN = "You have entered \"%s\". Please enter \"ready\" to start the game : ";
 
-	private List<Integer> orderedNumbers;
+	private int[] orderedNumbers;
 
 	/**
 	 * Default no-arg constructor.
@@ -51,11 +49,11 @@ public class NumberGuessGame {
 							+ DEFAULT_MAX_NUMBER);
 			maxNumber = DEFAULT_MAX_NUMBER;
 		}
-		orderedNumbers = new ArrayList<Integer>(maxNumber);
-		
-		//populate array list with 1..maxNumber.
+		orderedNumbers = new int[maxNumber];
+
+		//populate array  with 1..maxNumber.
 		for (int i = 1; i <= maxNumber; ++i) {
-			orderedNumbers.add(i);
+			orderedNumbers[i-1] = i;
 		}
 	}
 
@@ -69,7 +67,7 @@ public class NumberGuessGame {
 			if (!isUserReadyToPlay(scanner)) {
 				System.out.println("Ended the game!. You may try again!.");
 				return;
-			}		
+			}
 			play(scanner);
 		}
 		catch(Exception ex) {
@@ -78,26 +76,26 @@ public class NumberGuessGame {
 		}
 		finally {
 			//close the resources.
-			scanner.close();			
+			scanner.close();
 		}
 	}
-	
+
 	/**
-	 * Implements logic to play the game. As user provides hints reg his guess, the method changes 
-	 * low and high indexes accordingly until it narrows down to the exact number in <code>orderedNumbers</code> list. 
-	 * 
+	 * Implements logic to play the game. As user provides hints reg his guess, the method changes
+	 * low and high indexes accordingly until it narrows down to the exact number in <code>orderedNumbers</code> array.
+	 *
 	 * @param scanner
 	 */
 	private void play(Scanner scanner) {
-		
-		int lowIndex = 0, highIndex = orderedNumbers.size() - 1, currentIndex;
+
+		int lowIndex = 0, highIndex = orderedNumbers.length - 1, currentIndex;
 		String input = null;
-		
+
 		int attempts = 0;
 		do {
 			currentIndex = (lowIndex + highIndex) / 2;
 			++attempts;
-			System.out.printf("Is the number %d?", orderedNumbers.get(currentIndex));
+			System.out.printf("Is the number %d?", orderedNumbers[currentIndex]);
 			input = scanner.next();
 
 			if (LOWER.equalsIgnoreCase(input)) {
@@ -109,22 +107,22 @@ public class NumberGuessGame {
 				lowIndex = currentIndex + 1;
 				continue;
 			}
-			
+
 		} while (!END.equalsIgnoreCase(input) && !YES.equalsIgnoreCase(input));
 
 		if (END.equalsIgnoreCase(input)) {
-			System.out.println("Ended the game. Bye!"); 
-			return; 
+			System.out.println("Ended the game. Bye!");
+			return;
 		}
-		  
+
 		if (YES.equalsIgnoreCase(input)) {
-			 System.out.printf("Guessed the number successfully in %d attempts", attempts); 
-			 return; 
+			 System.out.printf("Guessed the number successfully in %d attempts", attempts);
+			 return;
 		}
 	}
- 
+
 	/**
-	 * Prompts user to enter "ready" to start number guess game. 
+	 * Prompts user to enter "ready" to start number guess game.
 	 * If user fails to enter ready in 3 attempts, returns false, otherwise returns true;
 	 */
 	private boolean isUserReadyToPlay(Scanner scanner) {
@@ -132,22 +130,22 @@ public class NumberGuessGame {
 		// initialize prompt count.
 		int promptCount = 0;
 		String input = null;
-		
+
 		do {
 			if (promptCount==0) {
-				System.out.print(READY_PROMPT_MSG);					
+				System.out.print(READY_PROMPT_MSG);
 			}
 			else {
-				System.out.printf(READY_PROMPT_MSG_AGAIN, input);					
+				System.out.printf(READY_PROMPT_MSG_AGAIN, input);
 			}
-			input = scanner.next();			
+			input = scanner.next();
 			++promptCount;
 			if (READY.equalsIgnoreCase(input)) {
 				return true;
-			}				
-		} 
+			}
+		}
 		while (!READY.equalsIgnoreCase(input) && promptCount < READY_PROMPT_MAX_COUNT);
-		
+
 		return false;
 	}
 
