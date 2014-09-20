@@ -11,15 +11,15 @@ The computer asks a series of questions to arrive at the number the user has in 
 The game ends when the user responds with “yes” or “end”.
  
 Example:
-User chooses number 40 in his mind.
-Computer: Is the number 30?
-User: higher
-Computer: Is the number 50?
-User: lower
-Computer: Is the number 35?
-User: higher
-Computer: Is the number 40?
-User: yes
+1. User chooses number 40 in his mind.
+2. Computer: Is the number 30?
+3. User: higher
+4. Computer: Is the number 50?
+5. User: lower
+6. Computer: Is the number 35?
+7. User: higher
+8. Computer: Is the number 40?
+9. User: yes
  
 Please note:
 1. The program should be written to arrive at the answer asking the least number of questions.
