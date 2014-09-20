@@ -6,8 +6,17 @@ import java.util.Scanner;
 
 /**
  * <code>NumberGuessGame</code> instance encapsulates the state and logic to
- * play Number Guess Game.
+ * play Number Guess Game. 
  * 
+
+ * Here is the usage - 
+ * <p>
+ * <code>
+ * NumberGuessGame game = new NumberGuessGame()/new NumberGuessGame(int);
+ * <br/>
+ * game.playGame();
+ * </code>
+ * </p>
  */
 public class NumberGuessGame {
 
@@ -24,6 +33,9 @@ public class NumberGuessGame {
 
 	private List<Integer> orderedNumbers;
 
+	/**
+	 * Default no-arg constructor.
+	 */
 	public NumberGuessGame() {
 		this(DEFAULT_MAX_NUMBER);
 	}
@@ -48,9 +60,9 @@ public class NumberGuessGame {
 	}
 
 	/**
-	 * This method is exposed to clients.
+	 * This method is public api exposed to clients.
 	 */
-	protected void playGame() {
+	public void playGame() {
 		Scanner scanner = null;
 		try {
 			scanner = new Scanner(System.in);
@@ -61,9 +73,11 @@ public class NumberGuessGame {
 			play(scanner);
 		}
 		catch(Exception ex) {
+			//print errors if any.
 			ex.printStackTrace();
 		}
 		finally {
+			//close the resources.
 			scanner.close();			
 		}
 	}
