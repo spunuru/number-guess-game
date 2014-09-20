@@ -41,3 +41,6 @@ Steps to build and run
 4. java -jar target/number-guess-game-0.0.1-SNAPSHOT.jar          (This sets the game range from 1..100)
 5. java -jar target/number-guess-game-0.0.1-SNAPSHOT.jar 1000   (This sets the game range from 1..1000)
 
+To Do
+-------
+1. Unit test cases
