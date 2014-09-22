@@ -36,7 +36,7 @@ Prerequisites
 Steps to build and run
 -----------------------
 1. git clone https://github.com/spunuru/number-guess-game.git
-2. cd number-guesst-game
+2. cd number-guess-game
 3. mvn clean install
 4. java -jar target/number-guess-game-0.0.1-SNAPSHOT.jar          (This sets the game range from 1..100)
 5. java -jar target/number-guess-game-0.0.1-SNAPSHOT.jar 1000   (This sets the game range from 1..1000)
